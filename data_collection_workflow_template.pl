@@ -77,6 +77,7 @@ my $stage_tag=stage1;
 Start_profiling($stage_tag); # profiling folder will contain this stage tag to help the parser identify the stages
 print "$stage_tag\n"; 
 run_your_stage with the right parameters; # call your workflow stage
+# CHECK THE EXIT STATUS OF YOUR WORKFLOW STAGE, ON FAILURE TOO CALL Stop_Profiling() to avoid orphan profiling processes
 Stop_Profiling(); # invokes the kill scripts to stop profiling
 sleep(60); # ideal for killing scripts and not having any overhead for the next stage
 
@@ -85,6 +86,7 @@ my $stage_tag=stage2;
 Start_profiling($stage_tag); # profiling folder will contain this stage tag to help the parser identify the stages
 print "$stage_tag\n"; 
 run_your_stage with the right parameters; # call your workflow stage
+# CHECK THE EXIT STATUS OF YOUR WORKFLOW STAGE, ON FAILURE TOO CALL Stop_Profiling() to avoid orphan profiling processes
 Stop_Profiling(); # invokes the kill scripts to stop profiling
 sleep(60); # ideal for killing scripts and not having any overhead for the next stage
 
@@ -93,6 +95,7 @@ my $stage_tag=stage3;
 Start_profiling($stage_tag); # profiling folder will contain this stage tag to help the parser identify the stages
 print "$stage_tag\n"; 
 run_your_stage with the right parameters; # call your workflow stage
+# CHECK THE EXIT STATUS OF YOUR WORKFLOW STAGE, ON FAILURE TOO CALL Stop_Profiling() to avoid orphan profiling processes
 Stop_Profiling(); # invokes the kill scripts to stop profiling
 sleep(60); # ideal for killing scripts and not having any overhead for the next stage
 
