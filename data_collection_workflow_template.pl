@@ -47,7 +47,7 @@ my $profiling = $ARGV[4];        # profiling is ON by default
 my $collectstatspath = $ARGV[5]; # location of collect_stats script and kill_scripts folder. 
 my $interval = $ARGV[6];         # interval passed in from the global script. Default is 30, or whatever the user specifies. 
 my $stats = $ARGV[7];            # tools passed in from the global script
-
+my $sampleprefix = $sample.'_'.$numThreads.'T';
 
 ################################################################
 # Enter code for all the variables and setup for your pipeline #
@@ -58,7 +58,7 @@ my $stats = $ARGV[7];            # tools passed in from the global script
 sub Start_profiling {
 my ($tag) = @_;
 if ($profiling) { 
-system("$collectstatspath $stats -d $interval -td $tmpDir -n $sampleprefix -tag $tag -l 5 -u 1 -s 600 &"); # will create a folder for each stage in the format :  run.$sampleprefix..$stagetag.1u
+system("$collectstatspath $stats -d $interval -td $outDir -n $sampleprefix -tag $tag -l 5 -u 1 -s 600 &"); # will create a folder for each stage in the format :  run.$sampleprefix..$stagetag.1u
 }
 }
 
@@ -71,8 +71,25 @@ system("$collectstatspath --kill-all"); #This will call all the scripts inside k
 ###############################################################
 # Code for stages of the pipeline with the following template # 
 ###############################################################
-#Enter the stage name (preferable in the pattern 'first letter of each work capitalized and no space between words'). Example: TestRun
-my $stage_tag= TestRun; # a unique identifier for each stage - keep the stage names short and relevant to the stage. Long stage names will affect the sar data files.
+#Provide a stage name which is a unique identifier for each stage - keep the stage names short and relevant to the stage. Long stage names will affect the sar data files.
+# Tag below 'stage1' corresponds to first stage in the sample_dict in workflow_dictionaries.py
+my $stage_tag=stage1; 
+Start_profiling($stage_tag); # profiling folder will contain this stage tag to help the parser identify the stages
+print "$stage_tag\n"; 
+run_your_stage with the right parameters; # call your workflow stage
+Stop_Profiling(); # invokes the kill scripts to stop profiling
+sleep(60); # ideal for killing scripts and not having any overhead for the next stage
+
+# Tag below 'stage2' corresponds to second stage in the sample_dict in workflow_dictionaries.py
+my $stage_tag=stage2; 
+Start_profiling($stage_tag); # profiling folder will contain this stage tag to help the parser identify the stages
+print "$stage_tag\n"; 
+run_your_stage with the right parameters; # call your workflow stage
+Stop_Profiling(); # invokes the kill scripts to stop profiling
+sleep(60); # ideal for killing scripts and not having any overhead for the next stage
+
+# Tag below 'stage3' corresponds to third stage in the sample_dict in workflow_dictionaries.py
+my $stage_tag=stage3; 
 Start_profiling($stage_tag); # profiling folder will contain this stage tag to help the parser identify the stages
 print "$stage_tag\n"; 
 run_your_stage with the right parameters; # call your workflow stage
